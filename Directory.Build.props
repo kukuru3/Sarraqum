@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>Build\_Output\</BaseIntermediateOutputPath>
+        <MSBuildProjectExtensionsPath>Build\</MSBuildProjectExtensionsPath>
+    </PropertyGroup> 
+</Project>
