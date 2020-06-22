@@ -19,6 +19,8 @@ namespace Sarraqum {
 
         public int TargetFPS { get; set; } = 60;
 
+        public int TicksPerSecond { get; set; } 
+
         public bool VSync { get; set; }
     }
 }

@@ -94,7 +94,11 @@ namespace Sarraqum {
         public void RegenerateGlyphArray() {
             localGlyphs = new Glyph[Rect.Width * Rect.Height];
         }
-
+        
+        // Print and SetFoo contain a lot of repetitive code and could be greatly architecturally improved
+        // by even something as small as optional / nullable arguments. 
+        // However since they are so frequently called and critical for performance, I use overloads, 
+        // with a lot of duplicated code. Such is life.
         public void Print(int x, int y, string str) {
             for (var z = 0; z < str.Length; z++) {
                 var finalX = x + z;
@@ -139,13 +143,39 @@ namespace Sarraqum {
         public void SetGlyph(int x, int y, char c) {
             if (!AreCoordinatesLegal(x, y)) return;
             var i = PackIndex(x, y);
-            var g = localGlyphs[i];
-            g.glyphid = c;
-            localGlyphs[i] = g;
+
+            // no idea if this actually results in a more performant code
+            unsafe {
+                fixed (Glyph* buffer = localGlyphs) {
+                    buffer[i].glyphid = c;
+                }
+            }
+            
+            //var g = localGlyphs[i];
+            //g.glyphid = c;
+            //localGlyphs[i] = g;
             NotifyAggregator(x, y);
         }
 
         void NotifyAggregator(int x, int y) => Aggregator.MarkGlyphDirty(GetPackedScreenIndexOfLocalCoords(x, y));
+
+        public void SetCell(int x, int y, char glyph, uint color, uint backColor) {
+            if (!AreCoordinatesLegal(x, y)) return;
+            var i = PackIndex(x, y);
+            unsafe {
+                 fixed (Glyph* buffer = localGlyphs) {
+                    buffer[i].glyphid = glyph;
+                    buffer[i].foreColor = color;
+                    buffer[i].backColor = backColor;
+                }
+            }
+            //var g = localGlyphs[i];
+            //g.glyphid = glyph;
+            //g.foreColor = color;
+            //g.backColor = backColor;
+            //localGlyphs[i] = g;
+            NotifyAggregator(x, y);
+        }
 
         public void SetForeColor(int x, int y, Color color) {
             if (!AreCoordinatesLegal(x, y)) return;

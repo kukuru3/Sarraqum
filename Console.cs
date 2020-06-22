@@ -33,6 +33,7 @@ namespace Sarraqum {
             SargonGameInstance = new Sargon.Game();
             SargonGameInstance.Title = Configuration.Title;
             SargonGameInstance.Context.Timer.ScreenFramerateLimit = Configuration.TargetFPS;
+            SargonGameInstance.TicksPerSecond = Configuration.TicksPerSecond;
             SargonGameInstance.Context.Timer.ScreenVSync = Configuration.VSync;
 
             SargonGameInstance.SetResolution(
@@ -60,7 +61,7 @@ namespace Sarraqum {
             mainSurfaceInstance = Surface.CreateMainSurface(MainConsoleRenderer);
             mainSurfaceInstance.BackgroundColor = Configuration.BackgroundColor;
 
-            //MainSurface.Fill(' ' , Color.White, Configuration.BackgroundColor);
+            MainSurface.Fill(' ' , Color.White, Configuration.BackgroundColor);
         }
 
         public Surface MainSurface => mainSurfaceInstance;
