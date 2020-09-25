@@ -103,6 +103,10 @@ namespace Sarraqum {
             // return new Rect(ScreenRect(s.AttachedTo).BoundsLow + s.Rect.BoundsLow, s.Rect.Dimension);
         }
 
+        internal void MarkAllDirty() {
+            allDirty = true;
+        }
+
         internal void MarkGlyphDirty(int v) {
             if (dirtyGlyphs[v]) return;
             dirtyGlyphIndices.Add(v);

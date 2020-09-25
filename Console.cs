@@ -56,12 +56,19 @@ namespace Sarraqum {
         }
 
         private void GenerateEverything() {
+            FixMainTextureBlacksToAlpha();
             MainTextureGridDefinition = CreateASCIIGridDefinition();
             MainConsoleRenderer = new ConsoleRenderer(this, Configuration.Dimensions.X, Configuration.Dimensions.Y);
             mainSurfaceInstance = Surface.CreateMainSurface(MainConsoleRenderer);
             mainSurfaceInstance.BackgroundColor = Configuration.BackgroundColor;
 
             MainSurface.Fill(' ' , Color.White, Configuration.BackgroundColor);
+        }
+
+        private void FixMainTextureBlacksToAlpha() {
+            var mainTex = SargonGameInstance.Context.Assets.Find(Configuration.Texture);
+            var massager = new TextureMassager();
+            massager.AddAlphaChannel(mainTex.Texture);
         }
 
         public Surface MainSurface => mainSurfaceInstance;

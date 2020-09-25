@@ -200,7 +200,11 @@ namespace Sarraqum {
         internal void Fill(char id, Color fore, Color back) {
             var n = rect.Surface;
             var g = new Glyph() { glyphid = id, backColor = back, foreColor = fore };
-            for (var i = 0; i < n; i++) localGlyphs[i] = g;
+            
+            for (var i = 0; i < n; i++) { 
+                localGlyphs[i] = g;
+                Aggregator.MarkGlyphDirty(i);
+            }
         }
     }
 }
